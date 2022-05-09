@@ -115,6 +115,24 @@
 - name: DD_EXCLUDE_PAUSE_CONTAINER
   value: "false"
 {{- end }}
+{{- if .Values.datadog.otlp }}
+{{- if .Values.datadog.otlp.receiver }}
+{{- if .Values.datadog.otlp.receiver.protocols }}
+{{- if .Values.datadog.otlp.receivers.protocols.grpc }}
+{{- if .Values.datadog.otlp.receivers.protocols.grpc.endpoint }}
+- name: DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_GRPC_ENDPOINT
+  value: {{ .datadog.otlp.receivers.protocols.grpc.endpoint | quote }}
+{{- end }}
+{{- end }}
+{{- if .Values.datadog.otlp.receivers.protocols.grpc }}
+{{- if .Values.datadog.otlp.receivers.protocols.grpc.endpoint }}
+- name: DD_OTLP_CONFIG_RECEIVER_PROTOCOLS_HTTP_ENDPOINT
+  value: {{ .datadog.otlp.receivers.protocols.http.endpoint | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
 {{- if eq (include "agent-has-env-ad" .) "true" }}
 {{- if .Values.datadog.dockerSocketPath }}
 - name: DOCKER_HOST
